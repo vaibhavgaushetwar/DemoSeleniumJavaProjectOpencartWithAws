@@ -45,4 +45,47 @@ public class RegistrationPageTest extends BaseTest {
 				AppError.USER_REG_NOT_DONE);
 
 	}
+
+	
+
+	@Test(dataProvider = "userRegTestData", priority = 1, description = "Register multiple users using inline data provider")
+	public void userRegistrationWithInlineData(String firstName, String lastName, String telephone, String password,
+			String subscribe) {
+		String email = StringUtils.getRandomEmailId();
+		Assert.assertTrue(regPage.userRegister(firstName, lastName, email, telephone, password, subscribe),
+				AppError.USER_REG_NOT_DONE);
+	}
+
+	@DataProvider
+	public Object[][] invalidUserRegData() {
+		return new Object[][] {
+			// missing first name
+			{"","Last","9399999991","Vkg@1234","yes"},
+			// missing last name
+			{"First","","9399999992","Vkg@1234","yes"},
+			// missing telephone
+			{"First","Last","","Vkg@1234","yes"},
+		};
+	}
+
+	@Test(dataProvider = "invalidUserRegData", priority = 2, description = "Negative - required fields missing should fail registration")
+	public void userRegistrationNegativeTests(String firstName, String lastName, String telephone, String password,
+			String subscribe) {
+		String email = StringUtils.getRandomEmailId();
+		
+		Assert.assertFalse(regPage.userRegister(firstName, lastName, email, telephone, password, subscribe),
+				AppError.USER_REG_NOT_DONE);
+	}
+
+	@Test(priority = 3, description = "Duplicate email registration should be rejected")
+	public void duplicateEmailRegistrationTest() {
+		String duplicateEmail = StringUtils.getRandomEmailId();
+	
+		boolean first = regPage.userRegister("Dup","User",duplicateEmail,"9399999999","Vkg@1234","yes");
+		Assert.assertTrue(first, "Initial registration with random email should succeed");
+
+		boolean second = regPage.userRegister("Dup2","User2",duplicateEmail,"9399999998","Vkg@1234","yes");
+		Assert.assertFalse(second, "Registration with duplicate email should fail");
+	}
+
 }

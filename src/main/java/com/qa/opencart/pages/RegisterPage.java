@@ -7,6 +7,8 @@ import com.qa.opencart.constants.AppConstants;
 import com.qa.opencart.util.ElementUtil;
 import com.qa.opencart.util.TimeUtil;
 
+import io.qameta.allure.Step;
+
 public class RegisterPage {
 	private WebDriver driver;
 	private ElementUtil eleUtil;
@@ -33,7 +35,8 @@ public class RegisterPage {
 	private By successMessg = By.cssSelector("div#content h1");
 	private By logoutLink = By.linkText("Logout");
 	private By registerLink = By.linkText("Register");
-
+	
+ @Step("User registration with firstName: {0}, lastName: {1}, email: {2}, telephone: {3}, password: {4}, subscribe: {5}")
 	public boolean userRegister(String firstName, String lastName, String email, String telephone, String password,
 			String subscribe) {
 
@@ -50,8 +53,8 @@ public class RegisterPage {
 			eleUtil.doClick(subscribeNo);
 		}
 
-		eleUtil.doClick(agreeCheckBox);
-		eleUtil.doClick(continueButton);
+		eleUtil.doClick(agreeCheckBox,TimeUtil.DEFAULT_MEDIUM_TIME);
+		eleUtil.doClick(continueButton,TimeUtil.DEFAULT_MEDIUM_TIME);
 
 		String successMesg = eleUtil.waitForElementVisibility(successMessg, TimeUtil.DEFAULT_MEDIUM_TIME).getText();
 
