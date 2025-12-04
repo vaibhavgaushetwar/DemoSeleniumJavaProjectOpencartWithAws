@@ -59,11 +59,11 @@ public class RegistrationPageTest extends BaseTest {
 	@DataProvider
 	public Object[][] invalidUserRegData() {
 		return new Object[][] {
-			// missing first name
+			
 			{"","Last","9399999991","Vkg@1234","yes"},
-			// missing last name
+			
 			{"First","","9399999992","Vkg@1234","yes"},
-			// missing telephone
+			
 			{"First","Last","","Vkg@1234","yes"},
 		};
 	}
