@@ -86,7 +86,7 @@ public class DriverFactory {
 		if (envName == null) {
 			System.out.println("env name is not given, hence running it on QA environment....");
 			try {
-				ip = new FileInputStream(AppConstants.CONFIG_QA_FILE_PATH);	 
+				ip = new FileInputStream(AppConstants.CONFIG_QA_FILE_PATH); 	 
 			} catch (FileNotFoundException e) {
 				
 				e.printStackTrace();
