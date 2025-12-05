@@ -21,8 +21,8 @@
 		</classes>
 	</test>
 
-	<test name="Account Page Test_fireox">
-		<parameter name="browser" value="firefox"></parameter>
+	<test name="Account Page Test_chrome">
+		<parameter name="browser" value="chrome"></parameter>
 		<classes>
 			<class name="com.qa.opencart.tests.AccountPageTest" />
 		</classes>
@@ -30,7 +30,7 @@
 
 
 	<test name="ProductInfo Page Test_fireox">
-		<parameter name="browser" value="firefox"></parameter>
+		<parameter name="browser" value="chrome"></parameter>
 		<classes>
 			<class name="com.qa.opencart.tests.ProductInfoPageTest" />
 		</classes>
@@ -44,7 +44,7 @@
 	</test>
 
 	<test name="Registration Page Test_firefox">
-		<parameter name="browser" value="firefox"></parameter>
+		<parameter name="browser" value="chrome"></parameter>
 		<classes>
 			<class name="com.qa.opencart.tests.RegistrationPageTest" />
 		</classes>
