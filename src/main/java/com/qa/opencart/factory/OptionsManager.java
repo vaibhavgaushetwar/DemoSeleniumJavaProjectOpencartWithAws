@@ -22,7 +22,7 @@ public class OptionsManager {
 
 		if (Boolean.parseBoolean(prop.getProperty("headless"))) {
 			System.out.println("====== running test in headless mode ======");
-			co.addArguments("--headless");
+			//co.addArguments("--headless");
 		}
 		if (Boolean.parseBoolean(prop.getProperty("incognito"))) {
 			co.addArguments("--incognito");
@@ -36,7 +36,7 @@ public class OptionsManager {
 
 		if (Boolean.parseBoolean(prop.getProperty("headless"))) {
 			System.out.println("====== running test in headless mode ======");
-			fo.addArguments("--headless");
+			//fo.addArguments("--headless");
 		}
 		if (Boolean.parseBoolean(prop.getProperty("incognito"))) {
 			fo.addArguments("--incognito");
@@ -50,7 +50,7 @@ public class OptionsManager {
 
 		if (Boolean.parseBoolean(prop.getProperty("headless"))) {
 			System.out.println("====== running test in headless mode ======");
-			eo.addArguments("--headless");
+		//	eo.addArguments("--headless");
 		}
 		if (Boolean.parseBoolean(prop.getProperty("incognito"))) {
 			eo.addArguments("--incognito");
