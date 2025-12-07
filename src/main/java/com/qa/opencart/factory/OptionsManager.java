@@ -37,6 +37,8 @@ public class OptionsManager {
 		if (Boolean.parseBoolean(prop.getProperty("headless"))) {
 			System.out.println("====== running test in headless mode ======");
 			//fo.addArguments("--headless");
+			fo.addArguments("-private");    // Firefox private mode
+            fo.setAcceptInsecureCerts(true);
 		}
 		if (Boolean.parseBoolean(prop.getProperty("incognito"))) {
 			fo.addArguments("--incognito");
