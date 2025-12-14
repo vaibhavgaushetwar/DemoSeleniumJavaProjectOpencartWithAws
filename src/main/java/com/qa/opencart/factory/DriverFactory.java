@@ -136,14 +136,27 @@ public class DriverFactory {
 	 * take screen shot
 	 */
 	public static String getScreenShot(String methodName) {
-	File srcFile =((TakesScreenshot)getDriver()).getScreenshotAs(OutputType.FILE);
-	String path=System.getProperty("user.dir")+"/screenshots/"+methodName+"_"+System.currentTimeMillis()+".png";
-	File destination = new File(path);
-	try {
-		FileHandler.copy(srcFile, destination);
-	} catch (IOException e) {
-		e.printStackTrace();
-	}
-	return path;
-	}
+
+    File srcFile = ((TakesScreenshot) getDriver())
+            .getScreenshotAs(OutputType.FILE);
+
+    String dirPath = System.getProperty("user.dir") + "/screenshots";
+    File dir = new File(dirPath);
+
+    if (!dir.exists()) {
+        dir.mkdirs();   
+    }
+
+    String path = dirPath + "/" + methodName + "_" + System.currentTimeMillis() + ".png";
+    File destination = new File(path);
+
+    try {
+        FileHandler.copy(srcFile, destination);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+    return path;
+}
+
 }
