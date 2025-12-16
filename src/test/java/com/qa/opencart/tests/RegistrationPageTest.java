@@ -73,8 +73,10 @@ public class RegistrationPageTest extends BaseTest {
 
 		boolean first = regPage.userRegister("Dup", "User", duplicateEmail, "9399999999", "Vkg@1234", "yes");
 		Assert.assertTrue(first, "Initial registration with random email should succeed");
-		System.out.println("Debuuged changes Duplicate email registration should be rejected ");
+		System.out.println("Debuuged changes Duplicate email registration should be rejected " +duplicateEmail);
 		boolean second = regPage.userRegister("Dup2", "User2", duplicateEmail, "9399999998", "Vkg@1234", "yes");
+		System.out.println("Debuuged changes2 Duplicate email registration should be rejected " +duplicateEmail);
+
 		Assert.assertFalse(second, "Registration with duplicate email should fail");
 	}
 

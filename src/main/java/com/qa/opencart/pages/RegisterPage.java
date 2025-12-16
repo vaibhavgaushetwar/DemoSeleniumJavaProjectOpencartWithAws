@@ -53,7 +53,14 @@ public class RegisterPage {
 			eleUtil.doClick(subscribeNo);
 		}
 
+		// click agree checkbox and give a short pause so UI can settle before submitting
 		eleUtil.doClick(agreeCheckBox,TimeUtil.DEFAULT_MEDIUM_TIME);
+		try {
+			Thread.sleep(1500); // 1.5 seconds pause
+		} catch (InterruptedException ie) {
+			Thread.currentThread().interrupt();
+		}
+
 		eleUtil.doClick(continueButton,TimeUtil.DEFAULT_MEDIUM_TIME);
 
 		String successMesg = eleUtil.waitForElementVisibility(successMessg, TimeUtil.DEFAULT_MEDIUM_TIME).getText();
