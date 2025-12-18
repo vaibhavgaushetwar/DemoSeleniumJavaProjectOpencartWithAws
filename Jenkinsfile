@@ -89,8 +89,8 @@ pipeline
         stage('Run Sanity Automation Tests') {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    git 'https://github.com/naveenanimation20/Feb2024POMSeries.git'
-                    sh "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/test_sanity.xml"
+                    git 'https://github.com/vaibhavgaushetwar/DemoSeleniumJavaProjectOpencartWithAws.git'
+                    bat "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/test_sanity.xml"
                     
                 }
             }
@@ -104,7 +104,7 @@ pipeline
                                   alwaysLinkToLastBuild: false, 
                                   keepAll: true, 
                                   reportDir: 'reports', 
-                                  reportFiles: 'TestExecutionReport.html', 
+                                  reportFiles: 'VaibhavTestExecutionReport.html', 
                                   reportName: 'HTML Sanity Extent Report', 
                                   reportTitles: ''])
             }
