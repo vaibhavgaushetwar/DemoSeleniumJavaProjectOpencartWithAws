@@ -39,7 +39,16 @@ pipeline
                 echo("deploy to qa")
             }
         }
-        
+        stage('Clean Allure Results - Regression') {
+            steps {
+                bat '''
+                if exist allure-results (
+                    echo Deleting old Allure results...
+                    rmdir /s /q allure-results
+                )
+                '''
+            }
+        }
         
                 
         stage('Run Regression Automation Tests') {
