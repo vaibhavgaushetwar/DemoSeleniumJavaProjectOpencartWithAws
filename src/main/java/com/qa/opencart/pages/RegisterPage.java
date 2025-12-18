@@ -58,8 +58,12 @@ try {
 			Thread.currentThread().interrupt();
 }
 		// click agree checkbox and give a short pause so UI can settle before submitting
-		System.out.println("Clicking on agree checkbox");
-		eleUtil.doClick(agreeCheckBox,TimeUtil.DEFAULT_MEDIUM_TIME);
+if (!eleUtil.isElementSelected(agreeCheckBox)) {
+    System.out.println("Agree checkbox not selected, clicking...");
+    eleUtil.doClick(agreeCheckBox);
+} else {
+    System.out.println("Agree checkbox already selected");
+}
 		
 		try {
 			Thread.sleep(1500); // 1.5 seconds pause
