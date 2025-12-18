@@ -58,6 +58,7 @@ try {
 			Thread.currentThread().interrupt();
 }
 		// click agree checkbox and give a short pause so UI can settle before submitting
+		System.out.println("Clicking on agree checkbox");
 		eleUtil.doClick(agreeCheckBox,TimeUtil.DEFAULT_MEDIUM_TIME);
 		
 		try {
