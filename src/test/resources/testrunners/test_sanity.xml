@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="NaveenSelenium" thread-count="2" parallel="tests" verbose="4">
-
+<suite name="Opencart  Sanity Test Cases" thread-count="2" parallel="tests" verbose="4">
+<listeners>
+		<listener
+			class-name="com.qa.opencart.listners.ExtentReportListener">
+		</listener>
+		<listener
+			class-name="com.qa.opencart.listners.TestAllureListener">
+		</listener>
+		<listener
+			class-name="com.qa.opencart.listners.AnnotationTransformer">
+		</listener>
+	</listeners>
 
     <test name="Registration Page Test">
     <parameter name="browser" value="chrome"></parameter>
