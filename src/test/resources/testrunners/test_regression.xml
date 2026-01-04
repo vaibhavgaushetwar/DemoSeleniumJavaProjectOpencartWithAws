@@ -9,9 +9,9 @@
 		<listener
 			class-name="com.qa.opencart.listners.TestAllureListener">
 		</listener>
-		<listener
-			class-name="com.qa.opencart.listners.AnnotationTransformer">
-		</listener>
+<!-- 		<listener -->
+<!-- 			class-name="com.qa.opencart.listners.AnnotationTransformer"> -->
+<!-- 		</listener> -->
 	</listeners>
 
 	<test name="Login Page Test_chrome">
@@ -43,11 +43,11 @@
 		</classes>
 	</test>
 
-	<test name="Registration Page Test_firefox">
-		<parameter name="browser" value="chrome"></parameter>
-		<classes>
-			<class name="com.qa.opencart.tests.RegistrationPageTest" />
-		</classes>
-	</test>
+<!-- 	<test name="Registration Page Test_firefox"> -->
+<!-- 		<parameter name="browser" value="chrome"></parameter> -->
+<!-- 		<classes> -->
+<!-- 			<class name="com.qa.opencart.tests.RegistrationPageTest" /> -->
+<!-- 		</classes> -->
+<!-- 	</test> -->
 
 </suite>

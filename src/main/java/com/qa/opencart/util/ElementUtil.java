@@ -154,6 +154,9 @@ public class ElementUtil {
 		}
 		return AttrList;
 	}
+	public boolean isElementSelected(By locator) {
+	    return getElement(locator).isSelected();
+	}
 	// *************** Select DropDown Utilities ******************//
 
 	public void doSelectByIndex(By locator, int index) {

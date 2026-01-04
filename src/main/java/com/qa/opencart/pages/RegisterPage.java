@@ -52,9 +52,17 @@ public class RegisterPage {
 		} else {
 			eleUtil.doClick(subscribeNo);
 		}
-
-		// click agree checkbox and give a short pause so UI can settle before submitting
-		eleUtil.doClick(agreeCheckBox,TimeUtil.DEFAULT_MEDIUM_TIME);
+		try {
+			Thread.sleep(1500); // 1.5 seconds pause
+		} catch (InterruptedException ie) {
+			Thread.currentThread().interrupt();
+		}
+		if (!eleUtil.isElementSelected(agreeCheckBox)) {
+		    System.out.println("Agree checkbox not selected, clicking...");
+		    eleUtil.doClick(agreeCheckBox);
+		} else {
+		    System.out.println("Agree checkbox already selected");
+		}
 		
 		try {
 			Thread.sleep(1500); // 1.5 seconds pause

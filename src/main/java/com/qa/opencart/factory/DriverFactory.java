@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Properties;
 
 import org.openqa.selenium.OutputType;
@@ -14,6 +16,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.io.FileHandler;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.qa.opencart.constants.AppConstants;
 import com.qa.opencart.errors.AppError;
@@ -24,11 +27,12 @@ public class DriverFactory {
 	WebDriver driver;
 	Properties prop;
 	InputStream ip;
-	OptionsManager optionsManager;	
-	
+	OptionsManager optionsManager;
+
 	public static String highlight;
-	
-	public static ThreadLocal<WebDriver> tlDriver= new  ThreadLocal<WebDriver>();
+
+	public static ThreadLocal<WebDriver> tlDriver = new ThreadLocal<WebDriver>();
+
 	/**
 	 * This used to initialize the driver given browser name
 	 * 
@@ -37,22 +41,34 @@ public class DriverFactory {
 	public WebDriver initDriver(Properties prop) {
 		String browserName = prop.getProperty("browser");
 		System.out.println("browser name is - " + browserName);
-		highlight =prop.getProperty("highlight");
-		
+		highlight = prop.getProperty("highlight");
+
 		optionsManager = new OptionsManager(prop);
-		
+
 		switch (browserName.trim().toLowerCase()) {
 		case "chrome":
-			//driver = new ChromeDriver();
-			tlDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
+			// driver = new ChromeDriver();
+			if (Boolean.parseBoolean(prop.getProperty("remote"))) {
+				initRemoteDriver("chrome");
+			} else {
+				tlDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
+			}
 			break;
 		case "firefox":
-			//driver = new FirefoxDriver();
-			tlDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
+			// driver = new FirefoxDriver();
+			if (Boolean.parseBoolean(prop.getProperty("remote"))) {
+				initRemoteDriver("firefox");
+			} else {
+				tlDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
+			}
 			break;
 		case "edge":
-			//driver = new EdgeDriver();
-			tlDriver.set(new EdgeDriver(optionsManager.getEdgeOptions()));
+			// driver = new EdgeDriver();
+			if (Boolean.parseBoolean(prop.getProperty("remote"))) {
+				initRemoteDriver("edge");
+			} else {
+				tlDriver.set(new EdgeDriver(optionsManager.getEdgeOptions()));
+			}
 			break;
 
 		default:
@@ -63,14 +79,43 @@ public class DriverFactory {
 		getDriver().get(prop.getProperty("url"));
 		return getDriver();
 	}
-	
+
+	/*
+	 * * this method is used to initialize remote driver
+	 */
+	private void initRemoteDriver(String browserName) {
+		System.out.println("Running tests on remote grid server: " + browserName);
+
+		try {
+			switch (browserName.trim().toLowerCase()) {
+			case "chrome":
+				tlDriver.set(
+						new RemoteWebDriver(new URL(prop.getProperty("huburl")), optionsManager.getChromeOptions()));
+				break;
+			case "firefox":
+				tlDriver.set(
+						new RemoteWebDriver(new URL(prop.getProperty("huburl")), optionsManager.getFirefoxOptions()));
+				break;
+			case "edge":
+				tlDriver.set(new RemoteWebDriver(new URL(prop.getProperty("huburl")), optionsManager.getEdgeOptions()));
+				break;
+			default:
+				System.out.println("please pass the right browser on grid..");
+				throw new BrowserException(AppError.BROWSER_NOT_FOUND);
+			}
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/*
 	 * get the local thread copy of the driver
+	 * 
 	 * @return
 	 */
 	public static WebDriver getDriver() {
 		return tlDriver.get();
-		
+
 	}
 
 	/**
@@ -86,9 +131,9 @@ public class DriverFactory {
 		if (envName == null) {
 			System.out.println("env name is not given, hence running it on QA environment....");
 			try {
-				ip = new FileInputStream(AppConstants.CONFIG_QA_FILE_PATH); 	 
+				ip = new FileInputStream(AppConstants.CONFIG_QA_FILE_PATH);
 			} catch (FileNotFoundException e) {
-				
+
 				e.printStackTrace();
 			}
 		} else {
@@ -97,7 +142,7 @@ public class DriverFactory {
 
 				switch (envName.toLowerCase().trim()) {
 				case "qa":
-					//ip = getClass().getClassLoader().getResourceAsStream("config/qa.properties");
+					// ip = getClass().getClassLoader().getResourceAsStream("config/qa.properties");
 					ip = new FileInputStream(AppConstants.CONFIG_QA_FILE_PATH);
 					break;
 				case "dev":
@@ -112,7 +157,7 @@ public class DriverFactory {
 				case "prod":
 					ip = new FileInputStream(AppConstants.CONFIG_PROD_FILE_PATH);
 					break;
-					
+
 				default:
 					System.out.println("please pass the right env name.... " + envName);
 					throw new FrameworkException("=== WRONG ENV PASSED ===");
@@ -123,40 +168,40 @@ public class DriverFactory {
 			}
 		}
 		try {
-		    prop.load(ip);
+			prop.load(ip);
 		} catch (IOException e) {
-		    e.printStackTrace();
+			e.printStackTrace();
 		} catch (NullPointerException e) {
-		    throw new FrameworkException("❌ Properties file not found or not loaded properly!");
+			throw new FrameworkException("❌ Properties file not found or not loaded properly!");
 		}
 		return prop;
 
 	}
+
 	/**
 	 * take screen shot
 	 */
 	public static String getScreenShot(String methodName) {
 
-    File srcFile = ((TakesScreenshot) getDriver())
-            .getScreenshotAs(OutputType.FILE);
+		File srcFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
 
-    String dirPath = System.getProperty("user.dir") + "/screenshots";
-    File dir = new File(dirPath);
+		String dirPath = System.getProperty("user.dir") + "/screenshots";
+		File dir = new File(dirPath);
 
-    if (!dir.exists()) {
-        dir.mkdirs();   
-    }
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
 
-    String path = dirPath + "/" + methodName + "_" + System.currentTimeMillis() + ".png";
-    File destination = new File(path);
+		String path = dirPath + "/" + methodName + "_" + System.currentTimeMillis() + ".png";
+		File destination = new File(path);
 
-    try {
-        FileHandler.copy(srcFile, destination);
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
+		try {
+			FileHandler.copy(srcFile, destination);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-    return path;
-}
+		return path;
+	}
 
 }
