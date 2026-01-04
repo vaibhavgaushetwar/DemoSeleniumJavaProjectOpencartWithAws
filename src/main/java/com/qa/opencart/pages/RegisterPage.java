@@ -52,6 +52,7 @@ public class RegisterPage {
 		} else {
 			eleUtil.doClick(subscribeNo);
 		}
+
 		try {
 			Thread.sleep(1500); // 1.5 seconds pause
 		} catch (InterruptedException ie) {
@@ -63,6 +64,7 @@ public class RegisterPage {
 		} else {
 		    System.out.println("Agree checkbox already selected");
 		}
+
 		
 		try {
 			Thread.sleep(1500); // 1.5 seconds pause
